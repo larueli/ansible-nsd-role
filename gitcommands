@@ -1,0 +1,31 @@
+git init
+git remote add nom lien
+git clone contenu
+git branch nom
+git checkout branche
+git commit -m "Description"
+git commit --amend -m "Nouveau message"
+git add
+git commit --amend --no-edit
+
+Working dir -> git add -> stage -> commit -> repos -> git push/pull -> Server
+
+git add nomFichier
+git commit -> crée la master
+git branch -d nom
+
+git stash
+git stash list
+git stash apply identifiant
+
+git log
+git reset -hard HEAD^
+git branch branche
+git checkout branche
+git reset -hard identifiant
+
+git revert HEAD^ (online)
+
+git reset commitCible --hard
+git reset --mixed HEAD~
+
