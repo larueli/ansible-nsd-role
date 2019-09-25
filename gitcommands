@@ -8,6 +8,8 @@ git commit --amend -m "Nouveau message"
 git add
 git commit --amend --no-edit
 
+test
+
 Working dir -> git add -> stage -> commit -> repos -> git push/pull -> Server
 
 git add nomFichier
