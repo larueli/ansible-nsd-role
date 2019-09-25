@@ -1,0 +1,12 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - hosts: 127.0.0.1
+    gather_facts: yes
+    tasks:
+      - name: Go
+        include_vars:
+          file: roles/nsd_common/vars/main.yml
+      - name: test
+        template:
+          src: roles/nsd_master/templates/nsd.conf.j2
+          dest: "nsd.conf"

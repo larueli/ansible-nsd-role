@@ -1,0 +1,13 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+# ansible -k --ask-become-pass
+  - hosts:
+        - dns_master
+        - dns_slave
+    gather_facts: no
+    remote_user: ubuntu
+    become: yes
+    become_user: root
+    become_method: sudo
+    roles:
+      - { role: ansible_ready, pathToSSHKey: "~/.ssh/ivann.pub"}

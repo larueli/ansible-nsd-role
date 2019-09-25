@@ -1,0 +1,57 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - include_tasks: roles/nsd_common/tasks/startLocalDNS.yml
+
+  - name: Installation des paquets master
+    package: 
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - ldnsutils
+      - haveged
+  
+  - include_tasks: roles/nsd_common/tasks/stopLocalDNS.yml
+
+  - name: Generation des fichiers de zone
+    template:
+      src: zone.j2
+      dest: /etc/nsd/zones/{{ item.domain }}.zone
+      owner: nsd
+      mode: "700"
+    loop: "{{ domains }}"
+    tags: 
+      - zoneGeneration
+
+  - name: Vérification des zones (nsd-checkzone)
+    shell: nsd-checkzone {{ item.domain }} /etc/nsd/zones/{{ item.domain }}.zone
+    loop: "{{ domains }}"
+
+  - name: Generation du fichier de configuration 
+    template:
+      src: nsd.conf.j2
+      dest: /etc/nsd/nsd.conf
+      owner: nsd
+      mode: "740"
+
+  - name: Vérification du fichier de config (nsd-checkconf)
+    shell: nsd-checkconf /etc/nsd/nsd.conf
+
+  - name: Génération des clefs, clefs DS
+    include_tasks:
+      file: genKey.yml
+    loop: "{{ domains }}"
+    tags: 
+      - clefsGeneration
+
+  - name: Signature des zones
+    include_tasks:
+      file: signZone.yml
+    loop: "{{ domains }}"
+    tags: 
+      - zoneSignature
+
+  - name: Redemarrage de nsd
+    service:
+      name: nsd
+      state: restarted
+      enabled: yes

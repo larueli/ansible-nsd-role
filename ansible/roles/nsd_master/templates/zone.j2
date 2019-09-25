@@ -1,0 +1,11 @@
+$ORIGIN {{ item.domain }}.
+$TTL {{ item.defaultTTL }}
+@ IN SOA {{ item.masterDNServerName }} {{ item.SOA.mailSOAFormat }} (
+{{ item.SOA.serial }}
+{{ item.SOA.refresh }}
+{{ item.SOA.retry }}
+{{ item.SOA.expire }}
+{{ item.SOA.ttl }}
+)
+{% for record in item.records %}{{ record.name }} {{ record.ttl }} {{ record.class }} {{ record.type }} {{ record.data }}
+{% endfor %}
