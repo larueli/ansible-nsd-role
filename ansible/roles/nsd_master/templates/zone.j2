@@ -7,5 +7,6 @@ $TTL {{ item.defaultTTL }}
 {{ item.SOA.expire }}
 {{ item.SOA.ttl }}
 )
-{% for record in item.records %}{{ record.name }} {{ record.ttl }} {{ record.class }} {{ record.type }} {{ record.data }}
+{% for record in item.records %}
+{{ record.name }} {{ record.ttl }} {{ record.class }} {{ record.type }} {{ record.data }}
 {% endfor %}

@@ -17,7 +17,7 @@
       src: zone.j2
       dest: /etc/nsd/zones/{{ item.domain }}.zone
       owner: nsd
-      mode: "700"
+      mode: "600"
     loop: "{{ domains }}"
     tags: 
       - zoneGeneration
@@ -37,15 +37,13 @@
     shell: nsd-checkconf /etc/nsd/nsd.conf
 
   - name: Génération des clefs, clefs DS
-    include_tasks:
-      file: genKey.yml
+    include_tasks: genKey.yml
     loop: "{{ domains }}"
     tags: 
       - clefsGeneration
 
   - name: Signature des zones
-    include_tasks:
-      file: signZone.yml
+    include_tasks: signZone.yml
     loop: "{{ domains }}"
     tags: 
       - zoneSignature

@@ -13,9 +13,9 @@
     when: not ansible_check_mode
 
   - file:
-      path: /etc/nsd/zones/{{ item.domain }}
+      path: /etc/nsd/zones/{{ item.domain }}.zone.signed
       owner: nsd
-      mode: "700"
+      mode: "600"
     when: not ansible_check_mode
 
   - shell: ldns-key2ds -n -{{ mode }} {{ item.domain }}.zone.signed
