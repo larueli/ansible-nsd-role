@@ -1,0 +1,28 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - name: Creation de l'utilisateur nsd
+    user:
+      name: nsd
+      system: yes
+  
+  - include_tasks: roles/nsd_common/tasks/startLocalDNS.yml
+
+  - name: Installation d'outils de base - erreur prévue, tout est sous controle
+    package: 
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - nano
+      - dnsutils
+      - net-tools
+      - nsd
+    ignore_errors: yes
+
+  - include_tasks: roles/nsd_common/tasks/stopLocalDNS.yml
+
+  - file:
+      path: /etc/nsd/zones
+      state: directory
+      owner: nsd
+      mode: "710"
+    when: not ansible_check_mode

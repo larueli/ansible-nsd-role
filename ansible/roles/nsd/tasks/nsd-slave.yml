@@ -1,0 +1,18 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - name: Generation du fichier de configuration
+    template:
+      src: nsd.conf.j2
+      dest: /etc/nsd/nsd.conf
+      owner: nsd
+      mode: "740"
+
+  - name: Demarrage de NSD
+    service:
+      name: nsd
+      state: restarted
+      enabled: yes
+
+  - name: Transfert des zones
+    shell: nsd-control force_transfer {{ item.domain }}
+    loop: "{{ domains }}"

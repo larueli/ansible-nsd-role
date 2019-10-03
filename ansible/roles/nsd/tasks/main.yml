@@ -1,0 +1,11 @@
+---
+- name: Common actions
+  include_tasks: nsd-common.yml
+
+- name: Actions for DNS Master
+  include_tasks: nsd-master.yml
+  when: nsd-master is defined
+
+- name: Actions for DNS Slave
+  include_tasks: nsd-slave.yml
+  when: nsd-slave is defined
