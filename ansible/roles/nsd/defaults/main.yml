@@ -2,7 +2,6 @@
 ---
 IPDNSSlave: "{{ groups['dns_slave'][0] }}"
 IPDNSMaster: "{{ groups['dns_master'][0] }}"
-DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
 
 nsd_vars:
   logfile: "/var/log/nsd.log"
@@ -12,52 +11,3 @@ nsd_vars:
 DNNSEC_keys:
   algorithm: "RSASHA1-NSEC3-SHA1"
   size: "2048"
-
-domains:
-  - domain: uttnetgroup.fr
-    masterDNServerName: hostmaster.uttnetgroup.fr.
-    defaultTTL: 1h
-    SOA:
-      mailSOAFormat: hostmaster.uttnetgroup.fr.
-      serial: 2019092101
-      refresh: 86400
-      retry: 7200
-      expire: 604800
-      ttl: 300
-    records:
-    - name: hostmaster.uttnetgroup.fr.
-      ttl: 300
-      class: IN
-      type: A
-      data: 10.0.1.2
-    - name: mdr.uttnetgroup.fr.
-      ttl: 6300
-      class: IN
-      type: CNAME
-      data: lol.utt.fr
-    - name: jpp
-      ttl: 6300
-      class: IN
-      type: A
-      data: 100.25.5.6
-  - domain: up.fr
-    masterDNServerName: jkehfjkezf.up.fr.
-    defaultTTL: 1h
-    SOA:
-      mailSOAFormat: hostmaster.up.fr.
-      serial: 2019092101
-      refresh: 86400
-      retry: 7200
-      expire: 604800
-      ttl: 300
-    records:
-    - name: jkehfjkezf.up.fr.
-      ttl: 300
-      class: IN
-      type: A
-      data: 10.5.1.2
-    - name: mdr.up.fr.
-      ttl: 6300
-      class: IN
-      type: CNAME
-      data: lol.ejhh.fr

@@ -1,12 +1,14 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
   - hosts: 127.0.0.1
-    gather_facts: yes
+    gather_facts: no
+    user: ivann
     tasks:
       - name: Go
         include_vars:
-          file: roles/nsd_common/vars/main.yml
+          file: roles/nsd/vars/main.yml
       - name: test
         template:
-          src: roles/nsd_master/templates/nsd.conf.j2
-          dest: "nsd.conf"
+          src: roles/nsd/templates/zone.j2
+          dest: "{{ item.domain }}.conf"
+        loop: "{{ domains }}"

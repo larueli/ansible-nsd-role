@@ -15,7 +15,7 @@
       mode: "710"
     when: not ansible_check_mode
 
-  - name: Generation des fichiers de zone
+  - name: Generation et vérification des fichiers de zone
     template:
       src: zone.j2
       dest: /etc/nsd/zones/{{ item.domain }}.zone

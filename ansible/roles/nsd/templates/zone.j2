@@ -1,4 +1,4 @@
-$ORIGIN {{ item.domain }}.
+$ORIGIN {{ item.domain | regex_replace('^(.*)^[\.]$','\\1.') }}
 $TTL {{ item.defaultTTL }}
 @ IN SOA {{ item.masterDNServerName }} {{ item.SOA.mailSOAFormat }} (
 {{ item.SOA.serial }}
@@ -8,5 +8,5 @@ $TTL {{ item.defaultTTL }}
 {{ item.SOA.ttl }}
 )
 {% for record in item.records %}
-{{ record.name }} {{ record.ttl }} {{ record.class }} {{ record.type }} {{ record.data }}
+{{ record.name }} {{ record.ttl | default({{ item.defaultTTL }}) }} {{ record.class | default("IN") }} {{ record.type }} {{ record.data }}
 {% endfor %}
