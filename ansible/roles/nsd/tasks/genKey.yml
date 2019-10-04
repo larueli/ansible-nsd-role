@@ -1,43 +1,42 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
   - stat:
-      path: /etc/nsd/zones/{{ item.domain }}
+      path: /etc/nsd/zones/keys/{{ item.domain }}
     register: dossierClefs
   - name: Verification de l'existence de clefs DNSSEC déjà créées pour {{ item.domain }}
     debug:
       msg: "{{ dossierClefs.stat.exists }}"
 
+  - file:
+      path: /etc/nsd/keys/{{ item.domain }}
+      state: directory
+      owner: nsd
+      mode: "700"
+
   - name: Generation des clefs pour {{ item.domain }}
     block:
     - name: Generation de clefs ZSK pour {{ item.domain }}
-      shell: ldns-keygen -a RSASHA1-NSEC3-SHA1 -b 2048 {{ item.domain }}
+      shell: ldns-keygen -a {{ DNNSEC_keys.algorithm }} -b {{ DNNSEC_keys.size }} {{ item.domain }}
       args:
-        chdir: /etc/nsd/zones
+        chdir: /etc/nsd/keys/{{ item.domain }}
       register: zsk
 
     - name: Génération de clefs KSK pour {{ item.domain }}
-      shell: ldns-keygen -k -a RSASHA1-NSEC3-SHA1 -b 2048 {{ item.domain }}
+      shell: ldns-keygen -k -a {{ DNNSEC_keys.algorithm }} -b {{ DNNSEC_keys.size }} {{ item.domain }}
       args: 
-        chdir: /etc/nsd/zones
+        chdir: /etc/nsd/keys/{{ item.domain }}
       register: ksk
-
-    - name: Stockage des clefs pour {{ item.domain }}
-      file:
-        path: /etc/nsd/zones/{{ item.domain }}
-        state: directory
-        owner: nsd
-        mode: "700"
 
     - copy:
         content: "{{ zsk.stdout }}"
-        dest: /etc/nsd/zones/{{ item.domain }}/zsk
+        dest: /etc/nsd/keys/{{ item.domain }}/zsk
         owner: nsd
         mode: "700"
       when: not ansible_check_mode
 
     - copy:
         content: "{{ ksk.stdout }}"
-        dest: /etc/nsd/zones/{{ item.domain }}/ksk
+        dest: /etc/nsd/keys/{{ item.domain }}/ksk
         owner: nsd
         mode: "700"
       when: not ansible_check_mode

@@ -1,15 +1,15 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-  - shell: cat /etc/nsd/zones/{{ item.domain }}/zsk
+  - shell: cat /etc/nsd/keys/{{ item.domain }}/zsk
     register: zsk
 
-  - shell: cat /etc/nsd/zones/{{ item.domain }}/ksk 
+  - shell: cat /etc/nsd/keys/{{ item.domain }}/ksk 
     register: ksk
 
   - name: Signature de la zone de {{ item.domain }}
     shell: ldns-signzone -n -p -s $(head -n 1000 /dev/urandom | sha1sum | cut -b 1-16) -f /etc/nsd/zones/{{ item.domain }}.zone.signed /etc/nsd/zones/{{ item.domain }}.zone {{ zsk.stdout }} {{ ksk.stdout }}
     args: 
-      chdir: /etc/nsd/zones
+      chdir: /etc/nsd/keys/{{ item.domain }}
     when: not ansible_check_mode
 
   - file:

@@ -3,6 +3,16 @@
 IPDNSSlave: "{{ groups['dns_slave'][0] }}"
 IPDNSMaster: "{{ groups['dns_master'][0] }}"
 DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
+
+nsd_vars:
+  logfile: "/var/log/nsd.log"
+  pidfile: "/run/nsd/nsd.pid"
+  hideversion: "yes"
+
+DNNSEC_keys:
+  algorithm: "RSASHA1-NSEC3-SHA1"
+  size: "2048"
+
 domains:
   - domain: uttnetgroup.fr
     masterDNServerName: hostmaster.uttnetgroup.fr.

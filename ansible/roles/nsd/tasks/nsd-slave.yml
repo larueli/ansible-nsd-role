@@ -3,7 +3,7 @@
   - name: Generation du fichier de configuration
     template:
       src: nsd.conf.j2
-      dest: /etc/nsd/nsd.conf
+      dest: /etc/nsd/nsd-slave.conf
       owner: nsd
       mode: "740"
 

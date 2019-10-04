@@ -1,9 +1,9 @@
 server:
     username: nsd
-    hide-version: yes
+    hide-version: {{ nsd_vars.hideversion }}
     zonesdir: "/etc/nsd/zones"
-    logfile: "/var/log/nsd.log"
-    pidfile: "/run/nsd/nsd.pid"
+    logfile: "{{ nsd_vars.logfile }}"
+    pidfile: "{{ nsd_vars.pidfile }}"
 
 key:
     name: "clef"

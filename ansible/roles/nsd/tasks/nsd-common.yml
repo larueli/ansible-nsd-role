@@ -5,9 +5,24 @@
       name: nsd
       system: yes
   
-  - include_tasks: roles/nsd_common/tasks/startLocalDNS.yml
+  - name: Changement DNS
+    copy:
+      src: files/nodnsupdate
+      dest: /etc/dhcp/dhclient-enter-hooks.d/nodnsupdate
+      owner: root
+      mode: "711"
 
-  - name: Installation d'outils de base - erreur prévue, tout est sous controle
+  - copy:
+      src: files/resolv.conf
+      dest: /etc/resolv.conf
+      backup: yes
+    
+  - service:
+      name: "systemd-resolved.service"
+      state: restarted
+      enabled: yes
+
+  - name: Installation d'outils de base
     package: 
       name: "{{ item }}"
       state: latest
@@ -16,9 +31,6 @@
       - dnsutils
       - net-tools
       - nsd
-    ignore_errors: yes
-
-  - include_tasks: roles/nsd_common/tasks/stopLocalDNS.yml
 
   - file:
       path: /etc/nsd/zones

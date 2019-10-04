@@ -1,11 +1,12 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-- name: Common actions
-  include_tasks: nsd-common.yml
+  - name: Taches communes
+    include_tasks: nsd-common.yml
+  
+  - name: Tâches NSD Master
+    include_tasks: nsd-master.yml
+    when: dnsmaster is defined
 
-- name: Actions for DNS Master
-  include_tasks: nsd-master.yml
-  when: nsd-master is defined
-
-- name: Actions for DNS Slave
-  include_tasks: nsd-slave.yml
-  when: nsd-slave is defined
+  - name: Tâches NSD Slave
+    include_tasks: nsd-slave.yml
+    when: dnsslave is defined
