@@ -24,8 +24,16 @@
       mode: "600"
       validate: nsd-checkzone {{ item.domain }} %s
     loop: "{{ domains }}"
+    register: genZone
     tags: 
       - zoneGeneration
+
+  - name: Augmentation du Serial SOA
+    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ item.dest }}
+      chdir: /etc/nsd/zones
+    when: item.changed
+    loop: "{{ genZone.results }}"
+    
 
   - name: Generation du fichier de configuration 
     template:

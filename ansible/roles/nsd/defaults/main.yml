@@ -3,6 +3,8 @@
 IPDNSSlave: "{{ groups['dns_slave'][0] }}"
 IPDNSMaster: "{{ groups['dns_master'][0] }}"
 
+DNSResolverServiceOnHost: "systemd-resolved.service"
+
 nsd_vars:
   logfile: "/var/log/nsd.log"
   pidfile: "/run/nsd/nsd.pid"

@@ -2,12 +2,11 @@
 DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
 
 domains:
-  - domain: uttnetgroup.fr
+  - FullyQualifiedDomainName: uttnetgroup.fr.
     masterDNServerName: hostmaster.uttnetgroup.fr.
     defaultTTL: 1h
     SOA:
       mailSOAFormat: hostmaster.uttnetgroup.fr.
-      serial: 2019092101
       refresh: 86400
       retry: 7200
       expire: 604800
@@ -28,12 +27,11 @@ domains:
       class: IN
       type: A
       data: 100.25.5.6
-  - domain: up.fr
+  - FullyQualifiedDomainName: up.fr.
     masterDNServerName: jkehfjkezf.up.fr.
     defaultTTL: 1h
     SOA:
       mailSOAFormat: hostmaster.up.fr.
-      serial: 2019092101
       refresh: 86400
       retry: 7200
       expire: 604800
