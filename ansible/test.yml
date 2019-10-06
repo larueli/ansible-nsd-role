@@ -6,21 +6,19 @@
       - name: Go
         include_vars:
           file: roles/nsd/vars/main.yml
-      - set_fact:
-          item.domain: "{{ item.FullyQualifiedDomainName[:-1] }}"
-          loop: "{{ domains }}"
+
       - name: test
         template:
           src: roles/nsd/templates/zone.j2
-          dest: "{{ item.domain }}.conf"
+          dest: /etc/{{ item.FQDN }}conf
         loop: "{{ domains }}"
         register: testt
 
       - debug:
-          var: "{{ testt }}"
+          var: testt
 
       - name: Augmentation du Serial SOA
         debug:
-          var: "{{ item.dest }}"
+          var: item.invocation.dest
         when: item.changed
         loop: "{{ testt.results }}"

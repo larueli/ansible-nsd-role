@@ -14,5 +14,5 @@
       enabled: yes
 
   - name: Transfert des zones
-    shell: nsd-control force_transfer {{ item.domain }}
+    shell: nsd-control force_transfer {{ item.FQDN[:-1] }}
     loop: "{{ domains }}"

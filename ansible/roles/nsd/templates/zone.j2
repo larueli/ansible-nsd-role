@@ -1,4 +1,4 @@
-$ORIGIN {{ item.FullyQualifiedDomainName }}
+$ORIGIN {{ item.FQDN }}
 $TTL {{ item.defaultTTL }}
 @ IN SOA {{ item.masterDNServerName }} {{ item.SOA.mailSOAFormat }} (
 {{ item.SOA.serial | default("0") }}

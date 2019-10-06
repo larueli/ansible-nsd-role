@@ -18,18 +18,19 @@
   - name: Generation et vérification des fichiers de zone
     template:
       src: zone.j2
-      dest: /etc/nsd/zones/{{ item.domain }}.zone
+      dest: /etc/nsd/zones/{{ item.FQDN }}zone
       backup: yes
       owner: nsd
       mode: "600"
-      validate: nsd-checkzone {{ item.domain }} %s
+      validate: nsd-checkzone {{ item.FQDN[:-1] }} %s
     loop: "{{ domains }}"
     register: genZone
     tags: 
       - zoneGeneration
 
   - name: Augmentation du Serial SOA
-    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ item.dest }}
+    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ item.invocation.dest }}
+    args:
       chdir: /etc/nsd/zones
     when: item.changed
     loop: "{{ genZone.results }}"

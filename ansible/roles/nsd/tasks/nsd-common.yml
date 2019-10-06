@@ -1,9 +1,5 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-  - set_fact:
-      item.domain: "{{ item.FullyQualifiedDomainName[:-1] }}"
-    loop: "{{ domains }}"
-
   - name: Creation de l'utilisateur nsd
     user:
       name: nsd
