@@ -1,13 +1,7 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-  - hosts: dns_master
+  - hosts: dns
     gather_facts: yes
     remote_user: root
     roles:
-      - nsd_master
-
-  - hosts: dns_slave
-    gather_facts: yes
-    remote_user: root
-    roles:
-      - nsd_slave
+      - nsd

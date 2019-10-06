@@ -4,23 +4,25 @@
     user:
       name: nsd
       system: yes
-  
-  - name: Changement DNS
+
+  - name: Arret du service DNS local
+    service:
+      name: "{{ DNSResolverServiceOnHost }}"
+      state: stopped
+      enabled: no
+
+  - name: Blocage de la mise à jour auto des IP DNS resolver
     copy:
       src: files/nodnsupdate
       dest: /etc/dhcp/dhclient-enter-hooks.d/nodnsupdate
       owner: root
       mode: "711"
 
-  - copy:
+  - name: Utilisation des DNS Google
+    copy:
       src: files/resolv.conf
       dest: /etc/resolv.conf
       backup: yes
-    
-  - service:
-      name: "{{ DNSResolverServiceOnHost }}"
-      state: restarted
-      enabled: yes
 
   - name: Installation d'outils de base
     package: 

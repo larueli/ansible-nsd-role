@@ -2,8 +2,7 @@
 ---
 # ansible -k --ask-become-pass
   - hosts:
-        - dns_master
-        - dns_slave
+        - dns
     gather_facts: no
     remote_user: ubuntu
     become: yes
