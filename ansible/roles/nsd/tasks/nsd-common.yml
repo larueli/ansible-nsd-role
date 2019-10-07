@@ -18,9 +18,9 @@
       owner: root
       mode: "711"
 
-  - name: Utilisation des DNS Google
-    copy:
-      src: files/resolv.conf
+  - name: Utilisation des DNS personnalisés
+    template:
+      src: resolv.conf
       dest: /etc/resolv.conf
       backup: yes
 
