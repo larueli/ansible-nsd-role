@@ -7,9 +7,9 @@
       msg: "{{ zone.stat.exists }}"
 
   - name: Récupération du Serial SOA
-    shell: head -7 /etc/nsd/zones/{{ item.FQDN }}zone | tail -1
+    shell: head -4 /etc/nsd/zones/{{ item.FQDN }}zone | tail -1
     register: SOASerial
-    when: zone.stat.exists
+    when: zone.stat.exists and not ansible_check_mode
 
   - name: Generation et vérification des fichiers de zone
     template:
@@ -22,5 +22,5 @@
     register: genZone
 
   - name: Augmentation du Serial SOA
-    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ genZone.invocation.dest }}
-    when: genZone.changed
+    shell: awk 'NR==4{ $1=$1+1;} {print}' /etc/nsd/zones/{{ item.FQDN }}zone > /tmp/tmpDNSAnsible && mv /tmp/tmpDNSAnsible /etc/nsd/zones/{{ item.FQDN }}zone
+    when: genZone.changed and not ansible_check_mode

@@ -5,8 +5,8 @@
   
   - name: Tâches NSD Master
     include_tasks: nsd-master.yml
-    when: host-dnsmaster is defined
+    when: host_is_dnsmaster is defined
 
   - name: Tâches NSD Slave
     include_tasks: nsd-slave.yml
-    when: host-dnsslave is defined
+    when: host_is_dnsslave is defined

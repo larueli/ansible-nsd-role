@@ -1,9 +1,7 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-IPDNSSlave: "{{ groups['dns_slave'][0] }}"
-IPDNSMaster: "{{ groups['dns_master'][0] }}"
-
-DNSResolverServiceOnHost: "systemd-resolved.service"
+Ubuntu_DNSResolverServiceOnHost: "systemd-resolved.service"
+RHELCent_networkCard: "eth0"
 
 nsd_vars:
   logfile: "/var/log/nsd.log"
@@ -17,3 +15,25 @@ DNNSEC_keys:
 nameservers:
   - "8.8.8.8"
   - "8.8.4.4"
+
+DebianUbuntu_CommonPackages:
+  - nano
+  - gawk
+  - dnsutils
+  - net-tools
+  - nsd
+
+RHELCent_CommonPackages:
+  - epel-release
+  - gawk
+  - bind-utils
+  - net-tools
+  - nsd
+
+DebianUbuntu_MasterPackages:
+  - haveged
+  - ldnsutils
+
+RHELCent_MasterPackages:
+  - haveged
+  - ldns

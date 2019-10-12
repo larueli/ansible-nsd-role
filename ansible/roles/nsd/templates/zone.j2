@@ -8,5 +8,5 @@ $TTL {{ item.defaultTTL }}
 {{ item.SOA.ttl }}
 )
 {% for record in item.records %}
-{{ record.name }} {{ record.ttl | default("{{ item.defaultTTL }}") }} {{ record.class | default("IN") }} {{ record.type }} {{ record.data }}
+{{ record.name }} {{ record.ttl | default(item.defaultTTL) }} {{ record.class | default("IN") }} {{ record.type }} {{ record.data }}
 {% endfor %}

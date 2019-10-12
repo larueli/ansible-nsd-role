@@ -1,10 +1,5 @@
-127.0.0.1
+127.0.0.1 ansible_connection=local
+
 [dns]
-10.0.3.103
-
-[dns_master]
-10.0.3.150
-
-[dns_slave]
-10.0.3.117
-
+dnsmaster
+dnsslave

@@ -1,14 +1,16 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-  - hosts: 10.0.3.109
+  - hosts:
+      - dns
     gather_facts: yes
     remote_user: root
-    tasks:
-      - name: Go
-        include_vars:
-          file: /home/ivann/private-repo/ansible/roles/nsd/vars/main.yml
-      - include_vars:
-          file: /home/ivann/private-repo/ansible/roles/nsd/defaults/main.yml
+    tasks: []
 
-      - include_tasks:
-          file: roles/nsd/tasks/nsd-common.yml
+  - hosts:
+      - dns
+    gather_facts: yes
+    serial: 1
+    remote_user: root
+    tasks:
+      - debug:
+          var: hostvars['dnsslave']['ansible_facts']['default_ipv4']['address']
