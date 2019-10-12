@@ -1,0 +1,26 @@
+---
+  - stat:
+      path: /etc/nsd/zones/{{ item.FQDN }}zone
+    register: zone
+  - name: Verification de l'existence d'une zone pour {{ item.FQDN[:-1] }}
+    debug:
+      msg: "{{ zone.stat.exists }}"
+
+  - name: Récupération du Serial SOA
+    shell: head -7 /etc/nsd/zones/{{ item.FQDN }}zone | tail -1
+    register: SOASerial
+    when: zone.stat.exists
+
+  - name: Generation et vérification des fichiers de zone
+    template:
+      src: zone.j2
+      dest: /etc/nsd/zones/{{ item.FQDN }}zone
+      backup: yes
+      owner: nsd
+      mode: "600"
+      validate: nsd-checkzone {{ item.FQDN[:-1] }} %s
+    register: genZone
+
+  - name: Augmentation du Serial SOA
+    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ genZone.invocation.dest }}
+    when: genZone.changed

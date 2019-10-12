@@ -15,36 +15,19 @@
       mode: "710"
     when: not ansible_check_mode
 
-  - name: Generation et vérification des fichiers de zone
-    template:
-      src: zone.j2
-      dest: /etc/nsd/zones/{{ item.FQDN }}zone
-      backup: yes
-      owner: nsd
-      mode: "600"
-      validate: nsd-checkzone {{ item.FQDN[:-1] }} %s
+  - include_tasks: genZone.yml
     loop: "{{ domains }}"
-    register: genZone
-    tags: 
+    tags:
       - zoneGeneration
-
-  - name: Augmentation du Serial SOA
-    shell: gawk -i inplace 'NR==7{ $1=$1+1;} {print}' {{ item.invocation.dest }}
-    args:
-      chdir: /etc/nsd/zones
-    when: item.changed
-    loop: "{{ genZone.results }}"
-    
 
   - name: Generation du fichier de configuration 
     template:
       src: nsd-master.conf.j2
       dest: /etc/nsd/nsd.conf
+      backup: yes
       owner: nsd
       mode: "740"
-
-  - name: Vérification du fichier de config (nsd-checkconf)
-    shell: nsd-checkconf /etc/nsd/nsd.conf
+      validate: nsd-checkconf %s
 
   - name: Génération des clefs, clefs DS
     include_tasks: genKey.yml

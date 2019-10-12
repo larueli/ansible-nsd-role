@@ -1,7 +1,7 @@
 $ORIGIN {{ item.FQDN }}
 $TTL {{ item.defaultTTL }}
 @ IN SOA {{ item.masterDNServerName }} {{ item.SOA.mailSOAFormat }} (
-{{ item.SOA.serial | default("0") }}
+{{ SOASerial.stdout | default("0") }}
 {{ item.SOA.refresh }}
 {{ item.SOA.retry }}
 {{ item.SOA.expire }}

@@ -6,6 +6,8 @@
       dest: /etc/nsd/nsd.conf
       owner: nsd
       mode: "740"
+      backup: yes
+      validate: nsd-checkconf %s
 
   - name: Demarrage de NSD
     service:

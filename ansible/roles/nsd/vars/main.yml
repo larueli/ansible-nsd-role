@@ -14,7 +14,6 @@ domains:
     records:
     - name: hostmaster.uttnetgroup.fr.
       ttl: 300
-      class: IN
       type: A
       data: 10.0.1.2
     - name: mdr.uttnetgroup.fr.
@@ -23,8 +22,6 @@ domains:
       type: CNAME
       data: lol.utt.fr
     - name: jpp
-      ttl: 6300
-      class: IN
       type: A
       data: 100.25.5.6
   - FQDN: up.fr.
