@@ -2,12 +2,11 @@
 ---
 # ansible -k --ask-become-pass
   - hosts:
-        - dns_master
-        - dns_slave
+        - dns
     gather_facts: no
-    remote_user: ubuntu
+    remote_user: root
     become: yes
-    become_user: root
-    become_method: sudo
+    # become_user: root
+    # become_method: sudo
     roles:
       - { role: ansible_ready, pathToSSHKey: "~/.ssh/ivann.pub"}

@@ -1,0 +1,54 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - name: Installation des paquets master pour Debian / Ubuntu
+    package: 
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ DebianUbuntu_MasterPackages }}"
+    when: ansible_facts['distribution'] == 'Debian' or ansible_facts['distribution'] == 'Ubuntu'
+    
+  - name: Installation des paquets master pour RHEL / CentOS
+    package: 
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ RHELCent_MasterPackages }}"
+    when: ansible_facts['distribution'] == 'CentOS' or ansible_facts['distribution'] == 'CentOS' == 'Red Hat Enterprise Linux'
+
+  - file:
+      path: /etc/nsd/keys
+      state: directory
+      owner: nsd
+      mode: "710"
+    when: not ansible_check_mode
+
+  - include_tasks: genZone.yml
+    loop: "{{ domains }}"
+    tags:
+      - zoneGeneration
+
+  - name: Generation du fichier de configuration 
+    template:
+      src: nsd-master.conf.j2
+      dest: /etc/nsd/nsd.conf
+      backup: yes
+      owner: nsd
+      mode: "740"
+      validate: nsd-checkconf %s
+
+  - name: Génération des clefs, clefs DS
+    include_tasks: genKey.yml
+    loop: "{{ domains }}"
+    tags: 
+      - clefsGeneration
+
+  - name: Signature des zones
+    include_tasks: signZone.yml
+    loop: "{{ domains }}"
+    tags: 
+      - zoneSignature
+
+  - name: Redemarrage de nsd
+    service:
+      name: nsd
+      state: restarted
+      enabled: yes

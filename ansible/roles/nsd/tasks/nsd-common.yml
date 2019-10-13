@@ -1,0 +1,66 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - name: Creation de l'utilisateur nsd
+    user:
+      name: nsd
+      system: yes
+
+  - name: Actions DNS pour Ubuntu/Debian
+    block:
+    - name: Arret du service DNS local pour Ubuntu / Debian
+      service:
+        name: "{{ Ubuntu_DNSResolverServiceOnHost }}"
+        state: stopped
+        enabled: no 
+
+    - name: Blocage de la mise à jour auto des IP DNS resolver pour Ubuntu / Debian
+      copy:
+        src: files/nodnsupdate
+        dest: /etc/dhcp/dhclient-enter-hooks.d/nodnsupdate
+        owner: root
+        mode: "711"
+    
+    - name: Utilisation des DNS personnalisés
+      template:
+        src: resolv.conf
+        dest: /etc/resolv.conf
+        backup: yes
+      
+    - name: Installation d'outils de base pour Ubuntu / Debian
+      package: 
+        name: "{{ item }}"
+        state: latest
+      with_items: "{{ DebianUbuntu_CommonPackages }}"
+
+    when: ansible_facts['distribution'] == 'Debian' or ansible_facts['distribution'] == 'Ubuntu'
+
+  - name: Actions DNS pour CentOS / RHEL
+    block:
+
+    - name: Blocage de la mise à jour des DNS sur la carte {{ RHELCent_networkCard }} pour Cent0S / RHEL
+      lineinfile:
+        path: /etc/sysconfig/network-scripts/ifcfg-{{ RHELCent_networkCard }}
+        line: PEERDNS=no
+        regexp: '^PEERDNS'
+        state: present
+
+    - name: Utilisation des DNS personnalisés
+      template:
+        src: resolv.conf
+        dest: /etc/resolv.conf
+        backup: yes
+
+    - name: Installation d'outils de base pour Cent0S / RHEL
+      package: 
+        name: "{{ item }}"
+        state: latest
+      with_items: "{{ RHELCent_CommonPackages }}"
+    
+    when: ansible_facts['distribution'] == 'CentOS' or ansible_facts['distribution'] == 'CentOS' == 'Red Hat Enterprise Linux'
+
+  - file:
+      path: /etc/nsd/zones
+      state: directory
+      owner: nsd
+      mode: "710"
+    when: not ansible_check_mode

@@ -1,13 +1,16 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
-  - hosts: dns_master
+  - hosts:
+      - dns
     gather_facts: yes
     remote_user: root
-    roles:
-      - nsd_master
+    tasks: []
+    #Récupéres tous les facts des hôtes dns, nécessaire pour la suite
 
-  - hosts: dns_slave
+  - hosts: 
+      - dns
     gather_facts: yes
     remote_user: root
+    serial: 1
     roles:
-      - nsd_slave
+      - nsd

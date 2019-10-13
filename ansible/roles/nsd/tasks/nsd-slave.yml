@@ -2,10 +2,12 @@
 ---
   - name: Generation du fichier de configuration
     template:
-      src: nsd.conf.j2
+      src: nsd-slave.conf.j2
       dest: /etc/nsd/nsd.conf
       owner: nsd
       mode: "740"
+      backup: yes
+      validate: nsd-checkconf %s
 
   - name: Demarrage de NSD
     service:
@@ -14,5 +16,5 @@
       enabled: yes
 
   - name: Transfert des zones
-    shell: nsd-control force_transfer {{ item.domain }}
+    shell: nsd-control force_transfer {{ item.FQDN[:-1] }}
     loop: "{{ domains }}"
