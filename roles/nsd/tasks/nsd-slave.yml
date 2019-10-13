@@ -9,6 +9,9 @@
       backup: yes
       validate: nsd-checkconf %s
 
+  - name: Création clefs de contrôle nsd
+    shell: nsd-control-setup -d /etc/nsd/
+
   - name: Demarrage de NSD
     service:
       name: nsd

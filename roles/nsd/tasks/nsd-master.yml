@@ -35,6 +35,9 @@
       mode: "740"
       validate: nsd-checkconf %s
 
+  - name: Création clefs de contrôle nsd
+    shell: nsd-control-setup -d /etc/nsd/
+
   - name: Génération des clefs, clefs DS
     include_tasks: genKey.yml
     loop: "{{ domains }}"

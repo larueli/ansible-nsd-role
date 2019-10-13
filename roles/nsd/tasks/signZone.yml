@@ -40,3 +40,15 @@
         - "GOST   : {{ DSKeys.results[2].stdout }}"
         - "SHA384 : {{ DSKeys.results[3].stdout }}"
     when: not ansible_check_mode
+
+  - shell: cat /etc/nsd/keys/{{ item.FQDN }}/$(/etc/nsd/keys/{{ ksk.stdout }}.private
+    register: kskprivate
+  - name: Affichage de clef privée KSK {{ item.FQDN[:-1] }}
+    debug:
+      var: kskprivate.stdout 
+
+  - shell: cat /etc/nsd/keys/{{ item.FQDN }}/{{ ksk.stdout }}.key
+    register: kskpublic
+  - name: Affichage de clef privée KSK {{ item.FQDN[:-1] }}
+    debug:
+      var: kskpublic.stdout 

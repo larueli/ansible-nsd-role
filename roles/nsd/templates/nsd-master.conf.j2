@@ -4,11 +4,16 @@ server:
     zonesdir: "/etc/nsd/zones"
     logfile: "{{ nsd_vars.logfile }}"
     pidfile: "{{ nsd_vars.pidfile }}"
+    verbosity: "{{ nsd_vars.verbosity }}"
+    refuse-any: "{{ nsd_vars.refuseANY}}"
 
 key:
     name: "clef"
     algorithm: sha256
     secret: "{{ DNSTransferKey }}"
+
+remote-control:
+    control-enable: yes
 
 {% for zone in domains %}
 zone:

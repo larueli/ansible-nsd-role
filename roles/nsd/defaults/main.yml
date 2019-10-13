@@ -7,6 +7,8 @@ nsd_vars:
   logfile: "/var/log/nsd.log"
   pidfile: "/run/nsd/nsd.pid"
   hideversion: "yes"
+  verbosity: "2"
+  refuseANY: "yes"
 
 DNNSEC_keys:
   algorithm: "RSASHA1-NSEC3-SHA1"
@@ -19,6 +21,7 @@ nameservers:
 DebianUbuntu_CommonPackages:
   - nano
   - gawk
+  - openssl
   - dnsutils
   - net-tools
   - nsd
@@ -26,6 +29,7 @@ DebianUbuntu_CommonPackages:
 RHELCent_CommonPackages:
   - epel-release
   - gawk
+  - openssl
   - bind-utils
   - net-tools
   - nsd

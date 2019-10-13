@@ -1,7 +1,7 @@
 #Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
 ---
   - stat:
-      path: /etc/nsd/zones/keys/{{ item.FQDN }}
+      path: /etc/nsd/keys/{{ item.FQDN }}
     register: dossierClefs
   - name: Verification de l'existence de clefs DNSSEC déjà créées pour {{ item.FQDN[:-1] }}
     debug:

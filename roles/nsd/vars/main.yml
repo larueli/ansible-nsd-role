@@ -1,8 +1,8 @@
 ---
 DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
 
-IPsDNSSlave: "{{ hostvars['dnsslave']['ansible_facts'][default_ipv4][address] }}"
-IPDNSMaster: "{{ hostvars['dnsmaster']['ansible_facts'][default_ipv4][address] }}"
+IPsDNSSlave: "{{ hostvars['dnsslave']['ansible_facts']['default_ipv4']['address'] }}"
+IPDNSMaster: "{{ hostvars['dnsmaster']['ansible_facts']['default_ipv4']['address'] }}"
 
 domains:
   - FQDN: uttnetgroup.fr.
@@ -18,8 +18,8 @@ domains:
     - name: hostmaster.uttnetgroup.fr.
       ttl: 300
       type: A
-      data: 10.0.1.2
-    - name: mdr.uttnetgroup.fr.
+      data: 10.0.1.22
+    - name: mdra.uttnetgroup.fr.
       ttl: 6300
       class: IN
       type: CNAME
@@ -27,8 +27,11 @@ domains:
     - name: jpp
       type: A
       data: 100.25.5.6
+    - name: test
+      type: A
+      data: 10.5.2.3
   - FQDN: up.fr.
-    masterDNServerName: jkehfjkezf.up.fr.
+    masterDNServerName: jkehfjkeezf.up.fr.
     defaultTTL: 1h
     SOA:
       mailSOAFormat: hostmaster.up.fr.
@@ -37,7 +40,7 @@ domains:
       expire: 604800
       ttl: 300
     records:
-    - name: jkehfjkezf.up.fr.
+    - name: jkehfjkeezf.up.fr.
       ttl: 300
       class: IN
       type: A
@@ -47,3 +50,6 @@ domains:
       class: IN
       type: CNAME
       data: lol.ejhh.fr
+    - name: lola
+      type: A
+      data: 10.34.2.3

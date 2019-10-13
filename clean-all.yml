@@ -1,0 +1,21 @@
+---
+  - hosts:
+      - dns
+    gather_facts: yes
+    serial: 1
+    remote_user: root
+    tasks:
+      - name: Effacement des zones
+        file:
+          path: /etc/nsd/zones/
+          state: absent
+
+      - name: Effacement des clefs
+        file:
+          path: /etc/nsd/keys/
+          state: absent
+
+      - name: Effacement de la config
+        file:
+          path: /etc/nsd/nsd.conf
+          state: absent

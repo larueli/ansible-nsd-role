@@ -23,4 +23,4 @@
 
   - name: Augmentation du Serial SOA
     shell: awk 'NR==4{ $1=$1+1;} {print}' /etc/nsd/zones/{{ item.FQDN }}zone > /tmp/tmpDNSAnsible && mv /tmp/tmpDNSAnsible /etc/nsd/zones/{{ item.FQDN }}zone
-    when: genZone.changed and not ansible_check_mode
+    when: genZone.backup_file is defined and not ansible_check_mode
