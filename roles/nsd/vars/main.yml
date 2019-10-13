@@ -1,7 +1,7 @@
 ---
 DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
 
-IPDNSSlave: "{{ hostvars['dnsslave']['ansible_facts'][default_ipv4][address] }}"
+IPsDNSSlave: "{{ hostvars['dnsslave']['ansible_facts'][default_ipv4][address] }}"
 IPDNSMaster: "{{ hostvars['dnsmaster']['ansible_facts'][default_ipv4][address] }}"
 
 domains:

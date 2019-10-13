@@ -7,6 +7,7 @@
 
   - name: Actions DNS pour Ubuntu/Debian
     block:
+    
     - name: Arret du service DNS local pour Ubuntu / Debian
       service:
         name: "{{ Ubuntu_DNSResolverServiceOnHost }}"

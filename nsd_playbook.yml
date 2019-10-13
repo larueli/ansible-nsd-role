@@ -5,7 +5,7 @@
     gather_facts: yes
     remote_user: root
     tasks: []
-    #Récupéres tous les facts des hôtes dns, nécessaire pour la suite
+    #Récupére tous les facts des hôtes dns, nécessaire pour la suite
 
   - hosts: 
       - dns

@@ -14,6 +14,6 @@ key:
 zone:
     name: {{ zone.FQDN[:-1] }}
     zonefile: {{ zone.FQDN }}zone.signed
-    notify: {{ IPDNSSlave }} clef
-    provide-xfr: {{ IPDNSSlave }} clef
+    notify: {{ IPsDNSSlave }} clef
+    provide-xfr: {{ IPsDNSSlave }} clef
 {% endfor %}
