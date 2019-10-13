@@ -1,0 +1,19 @@
+server:
+    username: nsd
+    hide-version: {{ nsd_vars.hideversion }}
+    zonesdir: "/etc/nsd/zones"
+    logfile: "{{ nsd_vars.logfile }}"
+    pidfile: "{{ nsd_vars.pidfile }}"
+
+key:
+    name: "clef"
+    algorithm: sha256
+    secret: "{{ DNSTransferKey }}"
+
+{% for zone in domains %}
+zone:
+    name: {{ zone.FQDN[:-1] }}
+    zonefile: {{ zone.FQDN }}zone.signed
+    allow-notify: {{ IPDNSMaster }} clef
+    request-xfr: {{ IPDNSMaster }} clef
+{% endfor %}

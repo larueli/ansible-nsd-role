@@ -1,0 +1,12 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - name: Installation de python 3
+    package:
+      name: python3
+      state: latest
+
+  - name: Installation de la clef SSH
+    authorized_key: 
+      user: root
+      exclusive: no
+      key: "{{ lookup('file','{{ pathToSSHKey }}') }}"

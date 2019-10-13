@@ -1,0 +1,16 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - hosts:
+      - dns
+    gather_facts: yes
+    remote_user: root
+    tasks: []
+    #Récupéres tous les facts des hôtes dns, nécessaire pour la suite
+
+  - hosts: 
+      - dns
+    gather_facts: yes
+    remote_user: root
+    serial: 1
+    roles:
+      - nsd

@@ -1,0 +1,44 @@
+#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+---
+  - stat:
+      path: /etc/nsd/zones/keys/{{ item.FQDN }}
+    register: dossierClefs
+  - name: Verification de l'existence de clefs DNSSEC déjà créées pour {{ item.FQDN[:-1] }}
+    debug:
+      msg: "{{ dossierClefs.stat.exists }}"
+
+  - file:
+      path: /etc/nsd/keys/{{ item.FQDN }}
+      state: directory
+      owner: nsd
+      mode: "700"
+
+  - name: Generation des clefs pour {{ item.FQDN[:-1] }}
+    block:
+    - name: Generation de clefs ZSK pour {{ item.FQDN[:-1] }}
+      shell: ldns-keygen -a {{ DNNSEC_keys.algorithm }} -b {{ DNNSEC_keys.size }} {{ item.FQDN[:-1] }}
+      args:
+        chdir: /etc/nsd/keys/{{ item.FQDN }}
+      register: zsk
+
+    - name: Génération de clefs KSK pour {{ item.FQDN[:-1] }}
+      shell: ldns-keygen -k -a {{ DNNSEC_keys.algorithm }} -b {{ DNNSEC_keys.size }} {{ item.FQDN[:-1] }}
+      args: 
+        chdir: /etc/nsd/keys/{{ item.FQDN }}
+      register: ksk
+
+    - copy:
+        content: "{{ zsk.stdout }}"
+        dest: /etc/nsd/keys/{{ item.FQDN }}/zsk
+        owner: nsd
+        mode: "700"
+      when: not ansible_check_mode
+
+    - copy:
+        content: "{{ ksk.stdout }}"
+        dest: /etc/nsd/keys/{{ item.FQDN }}/ksk
+        owner: nsd
+        mode: "700"
+      when: not ansible_check_mode
+
+    when: dossierClefs.stat.exists == False
