@@ -1,5 +1,4 @@
 # Rôle Ansible pour NSD
--
 
 Ce rôle Ansible vous permet de déployer NSD, un serveur DNS autoritatif solide et fiable sur des machines Linux (CentOS, Ubuntu).
 
@@ -29,14 +28,13 @@ Sur la machine exécutant le rôle :
 
 > ```git clone https://github.com/larueli/ansible-nsd-role.git```
 
--
+
 ### 2) Modifier votre fichier *hosts* afin d'inclure tous vos serveurs dns dans le même groupe de machines, pour chacun définir une variable d'hôte :
 
 > ```host_is_dnsmaster: yes``` si serveur maitre
 > 
 > ```host_is_dnsslave: yes``` si serveur esclave
 
--
 ### 3) Exécution du rôle ```ansible-ready``` pour s'assurer que les machines ont bien un accès SSH, et python installé
 
 Si toutes vos machines ont les mêmes identifiants (machines ubuntu dans LXC par exemple), vous pouvez utiliser le playbook *init.yml* après l'avoir adapté.
@@ -48,7 +46,6 @@ Si toutes vos machines ont les mêmes identifiants (machines ubuntu dans LXC par
 * -k : demande le mot de passe SSH
 * -K : demande le mot de passe pour les commandes sudo
 
--
 ### 4) Modification des variables *vars* du rôle pour NSD
 
 Modifiez le fichier ```roles/nsd/vars/main.yml``` pour : 
@@ -62,7 +59,6 @@ Cette clef peut être générée avec la commande :
 
 La façon d'écrire les domaines est spécifiée dans le fichier.
 
--
 ### 5) Modification des variables *defaults* du rôle pour NSD
 
 Modifiez le fichier ```roles/nsd/vars/main.yml``` pour : 
@@ -71,7 +67,6 @@ Modifiez le fichier ```roles/nsd/vars/main.yml``` pour :
 * Modifier les niveaux de verbosité, les emplacements de log et de pidfile, et les valeurs de refuse ANY et hide version pour NSD (facultatif)
 * Vous pouvez modifier l'algorithme DNSSEC ainsi que la taille des clefs (facultatif)
 
--
 ### 6) C'est parti !
 Un playbook est déjà tout prêt pour ce rôle, adaptez-le à votre situation puis exécutez-le.
 De même, en cas de modification des variables, ré-exécutez ce playbook.
@@ -80,7 +75,6 @@ De même, en cas de modification des variables, ré-exécutez ce playbook.
 
 
 # Auteur
--
 
 Je suis [Ivann LARUELLE](https://www.linkedin.com/in/ilaruelle/), étudiant-ingénieur en Réseaux et Télécommunications à l'[Université de Technologie de Troyes](https://www.utt.fr/), école publique d'ingénieurs.
 
@@ -90,13 +84,13 @@ N'hésitez pas à me contacter pour me signaler tout bug ou remarque. Je suis jo
 
 
 # Licence et utilisation
--
+
 Vous êtes libre de télécharger, utiliser, modifier et redistribuer ces sources à la seule condition de ne pas toucher à l'entête des fichiers yaml et de me créditer systématiquement.
 
 Je ne suis en aucun cas responsable de toutes les conséquences (perte de données, interruption de service, pertes financières, ...) issues de l'utilisation de cet outil.
 
 # Sources et remerciements
--
+
 Un article du site [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-dnssec-on-an-nsd-nameserver-on-ubuntu-14-04#step-one-%E2%80%94-install-and-set-up-nsd-on-both-servers), écrit par [Jesin A](https://www.digitalocean.com/community/users/jesin) a été ma première piste.
 
 La [documentation du site NLNETLABS](https://www.nlnetlabs.nl/documentation/), [organisation](https://www.nlnetlabs.nl/) qui développe notamment NSD (le serveur), et ldns (DNSSEC)
@@ -104,6 +98,6 @@ La [documentation du site NLNETLABS](https://www.nlnetlabs.nl/documentation/), [
 La [documentation d'Ansible](https://docs.ansible.com/) pour apprendre à utiliser Ansible.
 
 # Après ?
--
+
 * Traduction en anglais
 * Utilisation d'OpenDNSSEC
