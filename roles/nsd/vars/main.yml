@@ -1,55 +1,65 @@
+#
+# Author : Ivann LARUELLE / ivann.laruelle@gmail.com / @ILaruelle
+# Github (larueli) : https://github.com/larueli/ansible-nsd-role/
+#
 ---
 DNSTransferKey: h9k6FhsI8AH2E4+OlKS6cVtGZdXoRDr9
 
 IPsDNSSlave: "{{ hostvars['dnsslave']['ansible_facts']['default_ipv4']['address'] }}"
 IPDNSMaster: "{{ hostvars['dnsmaster']['ansible_facts']['default_ipv4']['address'] }}"
 
-domains:
-  - FQDN: uttnetgroup.fr.
-    masterDNServerName: hostmaster.uttnetgroup.fr.
-    defaultTTL: 1h
-    SOA:
-      mailSOAFormat: hostmaster.uttnetgroup.fr.
-      refresh: 86400
-      retry: 7200
-      expire: 604800
-      ttl: 300
-    records:
-    - name: hostmaster.uttnetgroup.fr.
-      ttl: 300
-      type: A
-      data: 10.0.1.22
-    - name: mdra.uttnetgroup.fr.
-      ttl: 6300
-      class: IN
-      type: CNAME
-      data: lol.utt.fr
-    - name: jpp
-      type: A
-      data: 100.25.5.6
-    - name: test
-      type: A
-      data: 10.5.2.3
-  - FQDN: up.fr.
-    masterDNServerName: jkehfjkeezf.up.fr.
-    defaultTTL: 1h
-    SOA:
-      mailSOAFormat: hostmaster.up.fr.
-      refresh: 86400
-      retry: 7200
-      expire: 604800
-      ttl: 300
-    records:
-    - name: jkehfjkeezf.up.fr.
-      ttl: 300
-      class: IN
-      type: A
-      data: 10.5.1.2
-    - name: mdr.up.fr.
-      ttl: 6300
-      class: IN
-      type: CNAME
-      data: lol.ejhh.fr
-    - name: lola
-      type: A
-      data: 10.34.2.3
+#Voilà la forme d'un enregistrement de domaine.
+# Au premier niveauu, la variable domains, une liste de dictionnaire.
+# Un dictionnaire = un domaine
+# Dans chaque dictionnaire de domaine, des données sur le domaine (FQDN, SOA, ...) et une liste (records) de dictionnaires de record
+# Dans chaque dictionnaire de records, au minimum son nom, son type et la donnée associée
+#  Pour les records, si vous ne spécifiez pas le TTL, la valeur par défaut sera defaultTTL
+#  Pour les records, si vous ne spécifiez pas la classe, la valeur par défaut sera IN
+#
+# Exemple :
+#-----------------
+#domains:
+#   - FQDN: test.fr.
+#     masterDNServerName: hostmaster.test.fr.
+#     defaultTTL: 1h
+#     SOA:
+#       mailSOAFormat: hostmaster.test.fr.
+#       refresh: 86400
+#       retry: 7200
+#       expire: 604800
+#       ttl: 300
+#     records:
+#     - name: test1.test.fr.
+#       ttl: 6300
+#       class: IN
+#       type: CNAME
+#       data: lol.utt.fr
+#     - name: hostmaster
+#       type: A
+#       data: 100.25.5.6
+#     - name: test
+#       type: A
+#       data: 10.5.2.3
+  # - FQDN: test.com.
+  #   masterDNServerName: foo.test.com.
+  #   defaultTTL: 1h
+  #   SOA:
+  #     mailSOAFormat: hostmaster.test.com.
+  #     refresh: 86400
+  #     retry: 7200
+  #     expire: 604800
+  #     ttl: 300
+  #   records:
+  #   - name: foo.test.com.
+  #     ttl: 300
+  #     class: IN
+  #     type: A
+  #     data: 10.5.1.2
+  #   - name: bar.test.com.
+  #     ttl: 6300
+  #     class: IN
+  #     type: CNAME
+  #     data: foobar.test.com.
+  #   - name: lola
+  #     type: A
+  #     data: 10.34.2.3

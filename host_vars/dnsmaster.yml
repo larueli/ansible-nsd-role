@@ -1,3 +1,7 @@
+#
+# Author : Ivann LARUELLE / ivann.laruelle@gmail.com / @ILaruelle
+# Github (larueli) : https://github.com/larueli/ansible-nsd-role/
+#
 ---
 ansible_host: 10.0.3.134
 host_is_dnsmaster: yes

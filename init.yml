@@ -1,4 +1,7 @@
-#Réalisé par Ivann LARUELLE / ivann.laruelle@utt.fr
+#
+# Author : Ivann LARUELLE / ivann.laruelle@gmail.com / @ILaruelle
+# Github (larueli) : https://github.com/larueli/ansible-nsd-role/
+#
 ---
 # ansible -k --ask-become-pass
   - hosts:
@@ -6,7 +9,7 @@
     gather_facts: no
     remote_user: root
     become: yes
-    # become_user: root
-    # become_method: sudo
+    become_user: root
+    become_method: sudo
     roles:
       - { role: ansible_ready, pathToSSHKey: "~/.ssh/ivann.pub"}
